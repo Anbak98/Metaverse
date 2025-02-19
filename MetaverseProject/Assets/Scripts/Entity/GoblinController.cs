@@ -6,10 +6,17 @@ using UnityEngine;
 public class GoblinController : BaseController
 {
     public Queue<GameObject> path = new();
+    Queue<GameObject> backup = new();
     GameObject nextPath;
+
+    public void OnEnable()
+    {
+        path = new(backup);
+    }
 
     public void Init()
     {
+        backup = new(path);
         nextPath = path.Dequeue();
     }
 

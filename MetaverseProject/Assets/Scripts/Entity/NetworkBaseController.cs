@@ -31,16 +31,12 @@ public class NetworkBaseController : NetworkBehaviour
 
     protected virtual void Update()
     {
-        if (!IsOwner) return;
-
         HandleAction();
         SubmitRotateRequestRpc(lookDirection);
     }
 
     protected virtual void FixedUpdate()
     {
-        if (!IsOwner) return;
-
         SubmitVelocityRequestRpc(movementDirection);
         if (knockbackDuration > 0.0f)
         {
