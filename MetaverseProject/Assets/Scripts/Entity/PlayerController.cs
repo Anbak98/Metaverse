@@ -17,8 +17,6 @@ public class PlayerController : NetworkBaseController
         if (IsOwner) // 내가 소유한 오브젝트만 실행
         {
             SpawnHandServerRpc();
-            Debug.Log(handInstance);
-            handPivot = handInstance.transform;
         }
     }
 
@@ -41,6 +39,7 @@ public class PlayerController : NetworkBaseController
         }
         handInstance = ownedObjs[1].gameObject;
         Debug.Log(handInstance);
+        handPivot = handInstance.transform;
     }
 
     private void OnDisconnectedFromServer()
