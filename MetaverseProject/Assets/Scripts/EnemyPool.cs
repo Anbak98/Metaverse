@@ -16,7 +16,6 @@ public class ObjectPool : MonoBehaviour
         for (int i = 0; i < MAX_COUNT; i++)
         {
             GameObject obj = Instantiate(targetObject);
-            obj.transform.SetParent(transform, false);
             obj.SetActive(false);
             pool.Push(obj);
         }

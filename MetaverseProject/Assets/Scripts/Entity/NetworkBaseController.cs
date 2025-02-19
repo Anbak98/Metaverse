@@ -33,11 +33,8 @@ public class NetworkBaseController : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        Debug.Log(handPivot.rotation);
         HandleAction();
-        Debug.Log(handPivot.rotation);
         SubmitRotateRequestRpc(lookDirection);
-        Debug.Log(handPivot.rotation);
     }
 
     protected virtual void FixedUpdate()
@@ -86,8 +83,6 @@ public class NetworkBaseController : NetworkBehaviour
         {
             handPivot.rotation = Quaternion.Euler(0f, 0f, rotZ);
         }
-
-        Debug.Log(handPivot.rotation);
     }
 
     public void ApplyKnockback(Transform other, float power, float duration)

@@ -30,9 +30,6 @@ public class GoblinController : BaseController
                 nextPath = path.Dequeue();
             }
             movementDirection = new Vector2(nextPath.transform.position.x - transform.position.x, nextPath.transform.position.y - transform.position.y).normalized;
-            Debug.Log(nextPath.transform.position.x);
-            Debug.Log(nextPath.transform.position.y);
-            Debug.Log(movementDirection);
         }
     }
 }

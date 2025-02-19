@@ -20,37 +20,11 @@ public class PlayerController : NetworkBaseController
         }
     }
 
-    [ServerRpc]
-    private void SpawnHandServerRpc(ServerRpcParams rpcParams = default)
-    {
-        GameObject hand = Instantiate(handPrefab, transform.position, Quaternion.identity);
-        NetworkObject networkObject = hand.GetComponent<NetworkObject>();
-        networkObject.SpawnAsPlayerObject(OwnerClientId, false); // 네트워크에 등록
-        HandSyncClientRpc();
-    }
-
-    [ClientRpc]
-    private void HandSyncClientRpc()
-    {
-        List<NetworkObject> ownedObjs = NetworkManager.Singleton.SpawnManager.GetClientOwnedObjects(OwnerClientId);
-        foreach (NetworkObject obj in ownedObjs)
-        {
-            Debug.Log(obj);
-        }
-        handInstance = ownedObjs[1].gameObject;
-        Debug.Log(handInstance);
-        handPivot = handInstance.transform;
-    }
-
-    private void OnDisconnectedFromServer()
-    {
-        Destroy(handPrefab);
-    }
-
     protected override void Start()
     {
         if (!IsOwner) return;
         base.Start();
+        NetworkManager.Singleton.SceneManager.OnSceneEvent += HandleSceneEvent;
         Camera newCam = Instantiate(Camera.main);
         followCam = newCam;
         foreach (var cam in Resources.FindObjectsOfTypeAll<Camera>())
@@ -68,13 +42,6 @@ public class PlayerController : NetworkBaseController
         base.Update();
         followCam.transform.position = new Vector3(transform.position.x, transform.position.y, followCam.transform.position.z);
         RequestSetHandPositionServerRpc();
-        Debug.Log(handInstance);
-    }
-
-    [ServerRpc]
-    void RequestSetHandPositionServerRpc()
-    {
-        handInstance.transform.position = transform.position;
     }
 
     protected override void HandleAction()
@@ -94,6 +61,46 @@ public class PlayerController : NetworkBaseController
         else
         {
             lookDirection = lookDirection.normalized;
+        }
+    }
+
+    [ServerRpc]
+    private void SpawnHandServerRpc(ServerRpcParams rpcParams = default)
+    {
+        GameObject hand = Instantiate(handPrefab, transform.position, Quaternion.identity);
+        NetworkObject networkObject = hand.GetComponent<NetworkObject>();
+        networkObject.SpawnAsPlayerObject(OwnerClientId, false); // 네트워크에 등록
+        HandSyncClientRpc();
+    }
+
+    [ClientRpc]
+    private void HandSyncClientRpc()
+    {
+        List<NetworkObject> ownedObjs = NetworkManager.Singleton.SpawnManager.GetClientOwnedObjects(OwnerClientId);
+        handInstance = ownedObjs[1].gameObject;
+        handPivot = handInstance.transform;
+    }
+
+    [ServerRpc]
+    void RequestSetHandPositionServerRpc()
+    {
+        handInstance.transform.position = transform.position;
+    }
+
+    private void HandleSceneEvent(SceneEvent evt)
+    {
+        if(evt.SceneEventType == SceneEventType.LoadComplete)
+        {
+            HandSyncClientRpc();
+            Camera newCam = Instantiate(Camera.main);
+            followCam = newCam;
+            foreach (var cam in Resources.FindObjectsOfTypeAll<Camera>())
+            {
+                cam.gameObject.SetActive(false);
+            }
+
+            // 새로 생성한 카메라만 활성화
+            followCam.gameObject.SetActive(true);
         }
     }
 }
