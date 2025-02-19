@@ -8,7 +8,7 @@ public class BaseController : MonoBehaviour
     private Rigidbody2D _rigidbody;
 
     [SerializeField] private SpriteRenderer characterRenderer;
-    [SerializeField] private Transform weaponPivot;
+    //[SerializeField] private Transform weaponPivot;
 
     protected Vector2 movementDirection = Vector2.zero;
     public Vector2 MovementDirection => movementDirection;
@@ -65,10 +65,10 @@ public class BaseController : MonoBehaviour
         float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         characterRenderer.flipX = Mathf.Abs(rotZ) > 90f;
 
-        if (weaponPivot != null)
-        {
-            weaponPivot.rotation = Quaternion.Euler(0f, 0f, rotZ);
-        }
+        //if (weaponPivot != null)
+        //{
+        //    weaponPivot.rotation = Quaternion.Euler(0f, 0f, rotZ);
+        //}
     }
 
     public void ApplyKnockback(Transform other, float power, float duration)

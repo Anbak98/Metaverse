@@ -4,21 +4,78 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 public class PlayerController : NetworkBaseController
 {
-    private Camera followCam ;
+    private Camera followCam;
+    [SerializeField] public GameObject handPrefab; // 자식 오브젝트 프리팹
+    private GameObject handInstance;
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner) // 내가 소유한 오브젝트만 실행
+        {
+            SpawnHandServerRpc();
+            Debug.Log(handInstance);
+            handPivot = handInstance.transform;
+        }
+    }
+
+    [ServerRpc]
+    private void SpawnHandServerRpc(ServerRpcParams rpcParams = default)
+    {
+        GameObject hand = Instantiate(handPrefab, transform.position, Quaternion.identity);
+        NetworkObject networkObject = hand.GetComponent<NetworkObject>();
+        networkObject.SpawnAsPlayerObject(OwnerClientId, false); // 네트워크에 등록
+        HandSyncClientRpc();
+    }
+
+    [ClientRpc]
+    private void HandSyncClientRpc()
+    {
+        List<NetworkObject> ownedObjs = NetworkManager.Singleton.SpawnManager.GetClientOwnedObjects(OwnerClientId);
+        foreach (NetworkObject obj in ownedObjs)
+        {
+            Debug.Log(obj);
+        }
+        handInstance = ownedObjs[1].gameObject;
+        Debug.Log(handInstance);
+    }
+
+    private void OnDisconnectedFromServer()
+    {
+        Destroy(handPrefab);
+    }
 
     protected override void Start()
     {
+        if (!IsOwner) return;
         base.Start();
-        followCam = Camera.main;
+        Camera newCam = Instantiate(Camera.main);
+        followCam = newCam;
+        foreach (var cam in Resources.FindObjectsOfTypeAll<Camera>())
+        {
+            cam.gameObject.SetActive(false);
+        }
+
+        // 새로 생성한 카메라만 활성화
+        followCam.gameObject.SetActive(true);
     }
 
     protected override void Update()
     {
+        if (!IsOwner) return;
         base.Update();
         followCam.transform.position = new Vector3(transform.position.x, transform.position.y, followCam.transform.position.z);
+        RequestSetHandPositionServerRpc();
+        Debug.Log(handInstance);
+    }
+
+    [ServerRpc]
+    void RequestSetHandPositionServerRpc()
+    {
+        handInstance.transform.position = transform.position;
     }
 
     protected override void HandleAction()
@@ -38,15 +95,6 @@ public class PlayerController : NetworkBaseController
         else
         {
             lookDirection = lookDirection.normalized;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (IsOwner && collision.gameObject.CompareTag("Dungeon"))
-        {
-            Destroy(this);
-            SceneManager.LoadScene("NetworkingDebugScene");
         }
     }
 }

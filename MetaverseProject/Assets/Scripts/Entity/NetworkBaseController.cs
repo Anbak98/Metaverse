@@ -8,7 +8,7 @@ public class NetworkBaseController : NetworkBehaviour
     private Rigidbody2D _rigidbody;
 
     [SerializeField] private SpriteRenderer characterRenderer;
-    [SerializeField] private Transform weaponPivot;
+    protected Transform handPivot;
 
     protected Vector2 movementDirection = Vector2.zero;
     public Vector2 MovementDirection => movementDirection;
@@ -33,8 +33,11 @@ public class NetworkBaseController : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+        Debug.Log(handPivot.rotation);
         HandleAction();
+        Debug.Log(handPivot.rotation);
         SubmitRotateRequestRpc(lookDirection);
+        Debug.Log(handPivot.rotation);
     }
 
     protected virtual void FixedUpdate()
@@ -70,12 +73,21 @@ public class NetworkBaseController : NetworkBehaviour
     private void SubmitRotateRequestRpc(Vector2 direction, RpcParams rpcParm = default)
     {
         float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        characterRenderer.flipX = Mathf.Abs(rotZ) > 90f;
-
-        if (weaponPivot != null)
+        if(Mathf.Abs(rotZ) > 90f)
         {
-            weaponPivot.rotation = Quaternion.Euler(0f, 0f, rotZ);
+            transform.rotation = Quaternion.Euler(0f, 180, 0f);
         }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0f, 0, 0f);
+        }
+
+        if (handPivot != null)
+        {
+            handPivot.rotation = Quaternion.Euler(0f, 0f, rotZ);
+        }
+
+        Debug.Log(handPivot.rotation);
     }
 
     public void ApplyKnockback(Transform other, float power, float duration)
