@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class EnemyPool : MonoBehaviour
 {
     public const int MAX_COUNT = 10;
 

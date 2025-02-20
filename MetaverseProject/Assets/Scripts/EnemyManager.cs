@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> destinationTile;
-    [SerializeField] ObjectPool objectPool;
+    [SerializeField] EnemyPool enemyPool;
     List<GameObject> enemys = new();
 
     readonly float spawnInterval = 5f;
@@ -21,7 +21,7 @@ public class EnemyManager : MonoBehaviour
         time -= Time.deltaTime;
         if(time < 0 )
         {
-            GameObject obj = objectPool.GetObject();
+            GameObject obj = enemyPool.GetObject();
             if (obj == null) return;
             obj.transform.position = destinationTile[0].transform.position;
             GoblinController gc = obj.GetComponent<GoblinController>();

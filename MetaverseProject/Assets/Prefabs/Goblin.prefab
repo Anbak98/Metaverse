@@ -313,7 +313,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2106972243655737094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0c94a878c294ab4cbcd4b4c4bd4c987, type: 3}
+  m_Script: {fileID: 11500000, guid: 30fbdd809a7894f458fc2e2fd94daed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 5547219573434975170}

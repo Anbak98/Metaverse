@@ -44,6 +44,15 @@ public class PlayerController : NetworkBaseController
         RequestSetHandPositionServerRpc();
     }
 
+    protected override void FixedUpdate()
+    {
+        if (!IsOwner) return;
+        
+            
+        
+        base.FixedUpdate();
+    }
+
     protected override void HandleAction()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
