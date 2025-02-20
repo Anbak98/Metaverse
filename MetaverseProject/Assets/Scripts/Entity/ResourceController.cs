@@ -27,7 +27,6 @@ public class ResourceController : MonoBehaviour
         CurrentHealth = CurrentHealth > MaxHealth ? MaxHealth : CurrentHealth;
         CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
 
-        Debug.Log(CurrentHealth);
         if (CurrentHealth <= 0f)
         {
             Death();
@@ -38,6 +37,8 @@ public class ResourceController : MonoBehaviour
 
     private void Death()
     {
+        EnemyManager.Instance.score.Value++;
         gameObject.SetActive(false);
+        CurrentHealth = MaxHealth;
     }
 }

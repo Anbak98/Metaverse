@@ -20,7 +20,7 @@ public class GameManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         // 현재 값으로 UI 초기화
-        yesVoteText.text = $"Yes Votes: {yesVote.Value}";
+        yesVoteText.text = $"Yes Votes: {yesVote.Value}\n Max Score: {PlayerPrefs.GetInt("MaxScore")}";
 
         // 값이 변경될 때 UI를 업데이트하는 이벤트 등록
         yesVote.OnValueChanged += OnYesVoteChanged;
@@ -33,7 +33,7 @@ public class GameManager : NetworkBehaviour
 
     private void OnYesVoteChanged(int previousValue, int newValue)
     {
-        yesVoteText.text = $"Yes Votes: {newValue}";
+        yesVoteText.text = $"Yes Votes: {yesVote.Value}\n Max Score: {PlayerPrefs.GetInt("MaxScore")}";
 
         if (yesVote.Value == m_NetworkManager.ConnectedClients.Count)
         {

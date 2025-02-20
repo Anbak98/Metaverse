@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyPool : MonoBehaviour
 {
-    public const int MAX_COUNT = 10;
+    [SerializeField] public readonly int MAX_COUNT = 10;
 
     [SerializeField] GameObject targetObject;
 

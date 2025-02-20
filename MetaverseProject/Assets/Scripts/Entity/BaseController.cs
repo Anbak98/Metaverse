@@ -50,7 +50,6 @@ public class BaseController : MonoBehaviour
     }
     private void Movement(Vector2 direction)
     {
-        Debug.Log("!!");
         direction *= 5;
         if (knockbackDuration > 0)
         {
