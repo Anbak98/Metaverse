@@ -5,10 +5,10 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EnemyManager : NetworkBehaviour
+public class DefenceGameManager : NetworkBehaviour
 {
-    private static EnemyManager instance;
-    public static EnemyManager Instance {  get => instance; }
+    private static DefenceGameManager instance;
+    public static DefenceGameManager Instance {  get => instance; }
 
     [SerializeField] private float spawnInterval = 0.2f;
     [SerializeField] private int endCount = 10;
@@ -70,18 +70,20 @@ public class EnemyManager : NetworkBehaviour
             time = spawnInterval;
         }
 
-        if(score.Value > endCount)
+        if (score.Value > endCount) EndGame();
+    }
+
+    void EndGame()
+    {
+        if (PlayerPrefs.HasKey("MaxScore"))
         {
-            if(PlayerPrefs.HasKey("MaxScore"))
+            if (PlayerPrefs.GetInt("MaxScore") < PlayerPrefs.GetInt("Score"))
             {
-                if(PlayerPrefs.GetInt("MaxScore") < PlayerPrefs.GetInt("Score"))
-                {
-                    PlayerPrefs.SetInt("MaxScore", PlayerPrefs.GetInt("Score"));
-                }
+                PlayerPrefs.SetInt("MaxScore", PlayerPrefs.GetInt("Score"));
             }
-            PlayerPrefs.SetInt("MaxScore", PlayerPrefs.GetInt("Score"));
-            Debug.Log(PlayerPrefs.GetInt("MaxScore"));
-            NetworkManager.Singleton.SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
         }
+        PlayerPrefs.SetInt("MaxScore", PlayerPrefs.GetInt("Score"));
+        NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().transform.position = Vector3.zero;
+        NetworkManager.Singleton.SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
     }
 }

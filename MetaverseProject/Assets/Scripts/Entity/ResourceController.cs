@@ -37,7 +37,7 @@ public class ResourceController : MonoBehaviour
 
     private void Death()
     {
-        EnemyManager.Instance.score.Value++;
+        DefenceGameManager.Instance.score.Value++;
         gameObject.SetActive(false);
         CurrentHealth = MaxHealth;
     }
