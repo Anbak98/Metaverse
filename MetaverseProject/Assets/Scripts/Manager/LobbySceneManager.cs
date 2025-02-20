@@ -3,7 +3,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class GameManager : NetworkBehaviour
+public class LobbySceneManager : NetworkBehaviour
 {
     private NetworkManager m_NetworkManager;
 
@@ -27,7 +27,6 @@ public class GameManager : NetworkBehaviour
     {
         yesVote.OnValueChanged -= OnYesVoteChanged;
     }
-
 
     private void OnGUI()
     {
