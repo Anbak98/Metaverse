@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public abstract class BaseUI : MonoBehaviour
+public abstract class BaseUI : NetworkBehaviour
 {
     protected UIManager uiManager;
 
