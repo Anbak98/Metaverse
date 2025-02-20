@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2776409480207523235}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3742348419
+  GlobalObjectIdHash: 3687870137
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -115,7 +115,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 8934542845281716973}
-  handPivot: {fileID: 9058030402589250568, guid: e958d91b24755cd4d90a77612322d0eb, type: 3}
   handPrefab: {fileID: 1125233369049625811, guid: e958d91b24755cd4d90a77612322d0eb, type: 3}
 --- !u!61 &3504675126790557442
 BoxCollider2D:
