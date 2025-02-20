@@ -1411,11 +1411,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Multiplay test
-
-    Unity Engine Menu > Tools > Run > Win > 2 player >
-    Select button one host & other client in left-up side > go to rigt-up stair location
-    for change scene'
+  m_text: "Multiplay test\nUnity Engine Menu > Tools > Run > Win > 2 player > Select
+    button one host & other client in left-up side > go to rigt-up stair location
+    for change scene\n\nin left-bottom side, \nAnd in Same-Computer\n key-z only\nrecognized
+    on Host."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5171,8 +5170,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2111261900}
   - component: {fileID: 2111261898}
-  - component: {fileID: 2111261902}
   - component: {fileID: 2111261901}
+  - component: {fileID: 2111261902}
   m_Layer: 0
   m_Name: AvatarShopNPC
   m_TagString: Untagged
@@ -5274,7 +5273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c3f90897cde49438e839c7d4da67bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 2e94159cd4c1a894bafcafcf48d10127, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
