@@ -4,48 +4,47 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AvataHandler : NetworkBehaviour
+public class AvatarColorTrigger : NetworkBehaviour
 {
+    [SerializeField] GameObject obj;
+
     void OnTriggerStay2D(Collider2D collision)
     {
+        obj.SetActive(true);
         if (collision.CompareTag("Player") && IsOwner && Input.GetKey(KeyCode.Z))
         {
             NetworkObject targetNetObj = collision.GetComponent<NetworkObject>();
             if (targetNetObj != null)
             {
-                RequestChangeAvatarServerRpc(targetNetObj.NetworkObjectId);
+                RequestChangeAvatarColorServerRpc(targetNetObj.NetworkObjectId);
             }
         }
     }
-
-    public Sprite sprite;
-
-    public void ChangeAvatar(ulong targetId, Sprite _sprite)
+    void OnTriggerExit2D(Collider2D collision)
     {
-        sprite = _sprite;
-        RequestChangeAvatarServerRpc(targetId);
+        obj.SetActive(false);
     }
 
-    [ServerRpc]
-    public void RequestChangeAvatarServerRpc(ulong targetId)
-    {
-        Debug.Log("Server received avatar change request.");
+    Sprite sprite;
 
+    [ServerRpc]
+    public void RequestChangeAvatarColorServerRpc(ulong targetId)
+    {
         NetworkObject targetNetObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[targetId];
         if (targetNetObj != null)
         {
-            AcceptChangeAvatarClientRpc(targetId);
-            targetNetObj.GetComponentInChildren<SpriteRenderer>().sprite = sprite;
+            AcceptChangeAvatarColorClientRpc(targetId);
+            targetNetObj.GetComponentInChildren<SpriteRenderer>().color = Color.red;
         }
     }
 
     [ClientRpc]
-    public void AcceptChangeAvatarClientRpc(ulong targetId)
+    public void AcceptChangeAvatarColorClientRpc(ulong targetId)
     {
         NetworkObject targetNetObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[targetId];
         if (targetNetObj != null)
         {
-            targetNetObj.GetComponentInChildren<SpriteRenderer>().sprite = sprite;
+            targetNetObj.GetComponentInChildren<SpriteRenderer>().color = Color.red;
         }
     }
 }

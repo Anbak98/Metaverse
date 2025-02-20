@@ -7,7 +7,7 @@ public class ResourceController : MonoBehaviour
 {
     private BaseController baseController;
     private StatHandler statHandler;
-    private AvataHandler avataHandler;
+    private AvataTrigger avataHandler;
 
     public float CurrentHealth { get; private set; }
     public float MaxHealth => statHandler.Health;
